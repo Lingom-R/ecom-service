@@ -13,7 +13,7 @@ jobs:
     env:
       APP_ID: 08a3c80814a1faee98c46086bedb5c88abd4fef1643ad75b3815376eb49a1c33
       BRANCH_NAME: Lingom-KSR-patch-1
-      SCAN_ID: 2dc788cde398c609ef64e4d07ce7a2d90459c670741e5a75ea8e46001810c562
+      SCAN_ID: fe71fdb1f2c2ba228c9ece278ea726539caaae3c530d3e8d007ac55a43afa7d4
       REQ_URL_MAP: "${{toJSON('{\"SL_RESULT_API_HOST\":\"http://ba8b-27-62-65-9.ngrok.io/resultapi\"\
         ,\"SL_RESULTPARSER_API_HOST\":\"b5f4-27-62-65-9.ngrok.io/resultparserapi\"\
         }')}}"
