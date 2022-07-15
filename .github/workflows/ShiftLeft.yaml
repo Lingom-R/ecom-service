@@ -6,7 +6,6 @@ on:
     - dev
     - dev1
     - main
-    - hot_release
   workflow_dispatch:
     inputs:
       logLevel:
