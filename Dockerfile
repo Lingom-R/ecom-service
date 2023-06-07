@@ -1,4 +1,4 @@
-FROM java:6
+FROM openjdk:21-oracle
 ENV FINDBUGS_VERSION=3.0.1
 
 WORKDIR /usr/workdir
