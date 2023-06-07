@@ -1,4 +1,4 @@
-FROM java:8-jdk-alpine
+FROM java:6
 ENV FINDBUGS_VERSION=3.0.1
 
 WORKDIR /usr/workdir
