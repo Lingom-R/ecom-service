@@ -13,7 +13,7 @@ jobs:
     env:
       APP_ID: 98668f0e938cc64d4b365d0d41556d86d4017ab9ce5cfeb1cdd473450b819b13
       BRANCH_NAME: snyk-fix-874e0061893d4b70662486e4cf1bcdd5
-      SCAN_ID: d18ad2f011da01d9e049c6de91dd7f86783ae28316b2a544f1a7af9ff8ae864c
+      SCAN_ID: ad0dd31399dd0dc9c84bc56f204d202049d3d4b1d35afbe64751b91f4deb32fe
       REQ_URL_MAP: "${{toJSON('{\"SL_RESULT_API_HOST\":\"https://slresultapi.uat.securin.io/resultapi\"\
         ,\"SL_RESULTPARSER_API_HOST\":\"https://slresultparserapi.uat.securin.io/resultparserapi\"\
         }')}}"
@@ -21,8 +21,8 @@ jobs:
     - name: Retrieve Token Info
       id: auth_token
       run: "respJson=$(curl --location --request GET 'https://slresultapi.uat.securin.io/resultapi/aws/ecr/token'\
-        \  --header 'Authorization: Bearer ${{secrets.CLI_ACCESS_TOKEN}}'  --data-raw\
-        \ ' ' ) \necho \"authTokenJson=$respJson\" >> $GITHUB_OUTPUT"
+        \  --header 'X-ASPM-Auth-Key: ${{secrets.ORG_API_KEY}}'  --data-raw ' ' )\
+        \ \necho \"authTokenJson=$respJson\" >> $GITHUB_OUTPUT"
     - uses: actions/checkout@v3
     - name: Scan Initiated
       id: sec_scan_init
@@ -37,7 +37,7 @@ jobs:
         \ ) \ndocker login --username  $usrVal --password $usrPassword $usrPrxyUrl\
         \ \ndocker pull -q $usrImgTag \ndocker run -v ${{github.workspace}}:/src \
         \ --volume ${{github.workspace}}:/workdir -v /var/run/docker.sock:/var/run/docker.sock\
-        \ $usrImgTag -access_tkn ${{secrets.CLI_ACCESS_TOKEN}} -app_id ${{ env.APP_ID\
+        \ $usrImgTag -org_api_key ${{secrets.ORG_API_KEY}} -app_id ${{ env.APP_ID\
         \ }} -scan_id ${{ env.SCAN_ID }} -branch_name ${{ env.BRANCH_NAME }} -req_url_map\
         \ ${{ env.REQ_URL_MAP }} -tool_name github event:${{ github.event_name }}\
         \  pr_number:${{ github.event.number }} -upload_log true"
