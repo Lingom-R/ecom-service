@@ -16,6 +16,7 @@ jobs:
     
       shell: bash
     - run: echo hello world > math-homework.txt
+    - run: exit (1)
     - name: test
       run : |
        echo "::set-output name=action_fruit::${{github.workspace}}/math-homework.txt" 
