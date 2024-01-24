@@ -11,16 +11,16 @@ on:
 jobs:
   scanning:
     env:
-      APP_ID: 794d13d0154a070d59fcd0dde07aa792792c0879fe571bb33cd112a5885ad207
+      APP_ID: 66adc0e60e65853c290aebc9ca5cbe031209748dd718a57eb7f3a225be6f5dd2
       BRANCH_NAME: main
-      SCAN_ID: f75273571b187f2d622160f6e13fbde2957b655ebfd0f08584ebc9effb1c2e42
-      REQ_URL_MAP: "${{toJSON('{\"SL_RESULT_API_HOST\":\"https://slresultapi.securin.io/resultapi\"\
-        ,\"SL_RESULTPARSER_API_HOST\":\"https://slresultparserapi.securin.io/resultparserapi\"\
+      SCAN_ID: a8ba4c8a8d0d8a5f8ab2b2c5579d9b1797a98c74e80138977252237db67ba869
+      REQ_URL_MAP: "${{toJSON('{\"SL_RESULT_API_HOST\":\"https://slresultapi.qa.securin.io/resultapi\"\
+        ,\"SL_RESULTPARSER_API_HOST\":\"https://slresultparserapi.qa.securin.io/resultparserapi\"\
         }')}}"
     steps:
     - name: Retrieve Token Info
       id: auth_token
-      run: "respJson=$(curl --location --request GET 'https://slresultapi.securin.io/resultapi/aws/ecr/token'\
+      run: "respJson=$(curl --location --request GET 'https://slresultapi.qa.securin.io/resultapi/aws/ecr/token'\
         \  --header 'X-ASPM-Auth-Key: ${{secrets.ORG_API_KEY}}'  --data-raw ' ' )\
         \ \necho \"authTokenJson=$respJson\" >> $GITHUB_OUTPUT"
     - uses: actions/checkout@v3
@@ -41,11 +41,6 @@ jobs:
         \ -app_id ${{ env.APP_ID }} -scan_id ${{ env.SCAN_ID }} -branch_name ${{ env.BRANCH_NAME\
         \ }} -req_url_map ${{ env.REQ_URL_MAP }} -tool_name github event:${{ github.event_name\
         \ }}  pr_number:${{ github.event.number }} -upload_log true"
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: "${{github.workspace}}/results/result.sarif"
-      if: hashFiles('**/result.sarif') !=''
     - name: Evaluate build status
       run: "cat ${{github.workspace}}/results/status.txt\nexit 1\n"
       if: hashFiles('**/status.txt') !=''
