@@ -14,7 +14,7 @@ resource "aws_s3_bucket" "b1" {
 
 resource "aws_s3_bucket" "b2" {
   bucket = "binarylook-b2"
-  acl    = "public-read-write"
+  acl    = "private"
 
   tags = {
     Name        = "Public_@_Bucket"
